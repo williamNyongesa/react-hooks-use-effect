@@ -1,13 +1,26 @@
-import React, { useState, useEffect } from "react";
+import react, { useEffect, useState } from "react";
+
 
 function App() {
+  const [images, setImages] = useState([]);
+
   useEffect(() => {
-    console.log("useEffect called");
-  });
+    fetch("http://localhost:8080/images")
+      .then((r) => r.json())
+      .then((data) => {
+        // setting state in the useEffect callback
+        setImages(data);
+      });
+  },[]);
 
-  console.log("Component rendering");
-
-  return <button>Click Me</button>;
-}
-
-export default App;
+  return (
+    <div>
+      {images.map((image,index) => (
+        <li key={index}>
+          <img src={image}  />
+        </li>
+        
+      ))}
+    </div>
+  );
+}export default App;
